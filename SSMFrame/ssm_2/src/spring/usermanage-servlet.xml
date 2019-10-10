@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 1.配置注解驱动，替代推荐使用的映射器和适配器，json转换器 -->
+    <mvc:annotation-driven/> <!-- 翻译：注释驱动 -->
+
+    <!-- 5.视图控制器，path:请求的路径  view-name:请求的视图名称 -->
+    <mvc:view-controller path="/user/users" view-name="users"/>
+    <mvc:view-controller path="/user/page/add" view-name="user-add"/>
+    <mvc:view-controller path="/user/page/edit" view-name="user-edit"/>
+
+    <!-- 4.由于web.xml中配置的servlet映射拦截是所有的 /  所以以至于拦截了所有的静态页面的配置，拦截了配置页面的效果就加载不出来
+         所以springmvc 给出了解决方案 -->
+    <mvc:default-servlet-handler/>  <!-- 翻译：默认servlet处理程序 -->
+
+    <!-- 2.开启Controller层的注解扫描 -->
+    <context:component-scan base-package="com.atguigu.usermanage.controller"></context:component-scan>
+
+    <!-- 3.配置视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+</beans>

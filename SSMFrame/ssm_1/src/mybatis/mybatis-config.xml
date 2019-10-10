@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!-- 开启大小驼峰 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!-- 交给applicationContext-mybatis.xml中托管 -->
+    <!--<typeAliases>
+        &lt;!&ndash; 别名扫描，name:包的路径 &ndash;&gt;
+        <package name="com.atguigu.usermanage.pojo"/>
+    </typeAliases>-->
+
+    <!-- 交给applicationContext-mybatis.xml中托管 -->
+    <!-- 映射文件 -->
+    <!--<mappers>
+        <mapper resource="mybatis/mappers/UserMapper.xml"/>
+    </mappers>-->
+
+</configuration>

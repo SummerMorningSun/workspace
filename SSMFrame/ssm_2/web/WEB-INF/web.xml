@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <!-- 由上面的初始化过程可知容器对于web.xml的加载过程是context-param >> listener  >> fileter  >> servlet  -->
+    <!-- 项目名 -->
+    <display-name>ssm_2</display-name>
+
+    <!-- 1.首先设置数据库的初始化配置操作   这里的目的是在完全启动web项目之前就把链接数据库的操作初始化准备好-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/applicationContext*.xml</param-value>
+    </context-param>
+
+    <!-- 2.配置全局监听  全局上下文加载监听 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- 面试考点：过滤器和拦截器的区别：
+        过滤器是在Tomcat中的，
+        而拦截器是Springmvc中的 这俩完全是两个不同的东西
+     -->
+    <!-- 配置解决put表单无法提交数据 -->
+    <filter>
+        <filter-name>putFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>putFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 隐藏请求方法的过滤器
+        使用post模拟put和delete
+        真正的请求方法，在_method参数中指定
+    -->
+    <filter>
+        <filter-name>deleteFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>deleteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 3.配置编码过滤器 -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf8</param-value>
+        </init-param>
+    </filter>
+    <!-- 所有的请求 都需要编码成utf8 -->
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 4.配置SpringMVC（SpringMVC的入口） 也就是servlet程序的映射 所有的前端请求映射都需要通过这里 -->
+    <servlet>
+        <servlet-name>usermanage</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/usermanage-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!-- 所有servlet映射请求 -->
+    <servlet-mapping>
+        <servlet-name>usermanage</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+</web-app>

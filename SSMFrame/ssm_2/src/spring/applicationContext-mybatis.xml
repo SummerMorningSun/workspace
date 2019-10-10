@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        www.http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+        http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+    ">
+
+    <!-- 1.spring构建sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 指定mybatis的数据源 -->
+        <property name="dataSource" ref="dataSource"></property>
+        <!-- 指定mybatis的全局配置文件 -->
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+        <!-- 调优：mybatis-config.xml中的扫描sql的所有映射文件  扫描mybatis/sql及子子孙孙包下的所有映射文件  -->
+        <property name="mapperLocations" value="classpath:mybatis/sql/**/*.xml"></property>
+        <!-- 调优：mybatis-config.xml中的别名扫描配置  别名扫描  -->
+        <property name="typeAliasesPackage" value="com.atguigu.usermanage.pojo"></property>
+    </bean>
+
+    <!-- 2.spring动态代理实现UserDao接口 --> <!-- 调优，直接配置到sprin构建sqlSessionFactory中 -->
+    <!--<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="com.atguigu.usermanage.dao.UserDao"/>
+    </bean>-->
+
+    <!-- 3.配置dao层接口扫描 -->
+    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.atguigu.usermanage.dao"></property>
+    </bean>-->
+    <!-- 调优：终极解决方案 -->
+    <mybatis-spring:scan base-package="com.atguigu.usermanage.dao"/>
+
+</beans>

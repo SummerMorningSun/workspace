@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 1.开启大小驼峰命名规则 mapUnderscoreToCamelCase:映射下划线到数据库 -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!-- 2.别名扫描， name:包的路径 --> <!-- 调优，直接配置到applicationContext-mybatis.xml中sqlSessionFactory -->
+    <!--<typeAliases>
+        <package name="com.atguigu.usermanage.pojo"/>
+    </typeAliases>-->
+
+    <!-- 3.映射文件 --> <!-- 调优，直接配置到applicationContext-mybatis.xml中sqlSessionFactory -->
+    <!--<mappers>
+        <mapper resource="mybatis/sql/User.xml"></mapper>
+    </mappers>-->
+
+</configuration>

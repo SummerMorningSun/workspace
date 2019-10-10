@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.usermanage.mapper.UserMapper">
+
+    <!-- 批量删除用户功能 -->
+    <delete id="deleteUserByIds">
+        delete from tb_user where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">#{id}</foreach>
+    </delete>
+
+    <!-- 增加2位客户，要成功都成功，要失败都失败 ()-->
+    <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO tb_user (
+            user_name,
+            password,
+            name,
+            age,
+            sex,
+            birthday,
+            created,
+            updated
+        )
+        VALUES
+            (
+                #{userName},
+                #{password},
+                #{name},
+                #{age},
+                #{sex},
+                #{birthday},
+                now(),
+                now()
+            )
+    </insert>
+    <!-- 新增用户 -->
+    <insert id="saveUser" parameterType="com.atguigu.usermanage.pojo.User">
+        INSERT INTO tb_user (
+            user_name,
+            password,
+            name,
+            age,
+            sex,
+            birthday,
+            created,
+            updated
+        )
+        VALUES
+            (
+                #{userName},
+                #{password},
+                #{name},
+                #{age},
+                #{sex},
+                #{birthday},
+                now(),
+                now()
+            )
+    </insert>
+    <!-- 根据id删除用户 -->
+    <delete id="deleteUserById" parameterType="java.lang.Long">
+        delete from tb_user where id = #{id}
+    </delete>
+    <!-- 根据id修改用户信息 -->
+    <update id="updateUserById" parameterType="com.atguigu.usermanage.pojo.User">
+        UPDATE tb_user
+            SET
+             user_name = #{userName},
+             password = #{password},
+             name = #{name},
+             age = #{age},
+             sex = #{sex},
+             birthday = #{birthday},
+             created = #{created},
+             updated = now()
+            WHERE
+                (id = #{id});
+    </update>
+    <!-- 查询用户信息根据id -->
+    <select id="queryUserById" resultType="com.atguigu.usermanage.pojo.User">
+        select
+            id,
+            user_name as "userName",
+            password  as "password",
+            name      as "name",
+            age       as "age",
+            sex       as "sex",
+            birthday  as "birthday",
+            created   as "created",
+            updated   as "updated"
+            from tb_user
+            where
+            id = #{id}
+    </select>
+    <!-- 查询所有用户信息 -->
+    <select id="queryAllUserInfo" resultType="com.atguigu.usermanage.pojo.User">
+        select
+            id,
+            user_name as "userName",
+            password  as "password",
+            name      as "name",
+            age       as "age",
+            sex       as "sex",
+            birthday  as "birthday",
+            created   as "created",
+            updated   as "updated"
+        from tb_user
+    </select>
+    <!-- 查询所有用户返回值类型为List<User> -->
+    <select id="queryAllUserResultListUser" parameterType="java.util.HashMap"
+            resultType="com.atguigu.usermanage.pojo.User">
+        select
+            id,
+            user_name as "userName",
+            password  as "password",
+            name      as "name",
+            age       as "age",
+            sex       as "sex",
+            birthday  as "birthday",
+            created   as "created",
+            updated   as "updated"
+        from tb_user
+    </select>
+    <!-- 查询所有用户个数 -->
+    <select id="queryTotal" resultType="java.lang.Long">
+        select count(1) from tb_user
+    </select>
+
+</mapper>
