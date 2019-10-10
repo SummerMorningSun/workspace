@@ -20,6 +20,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("user")
 public class UserController {
+	
+	// 添加一行注释，并提交到本地仓库，且后提交到远程仓库中去，
+	
     // 引入逻辑服务层 Service
     @Autowired
     private UserService userService;
