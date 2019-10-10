@@ -21,6 +21,8 @@ import java.util.Map;
 @RequestMapping("user")
 public class UserController {
 	
+	// 添加一行还没有更新类的注释，一会解决pull拉取冲突
+	
 	// 添加一行注释，并提交到本地仓库，且后提交到远程仓库中去，
 	
     // 引入逻辑服务层 Service
